@@ -1,0 +1,21 @@
+{
+  "name": "book-shop-backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.17.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
