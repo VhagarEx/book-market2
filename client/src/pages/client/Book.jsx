@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
+
 
 function Book() {
   const { id } = useParams();
@@ -8,15 +9,15 @@ function Book() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/books/${id}`)
+    api
+      .get(`/books/${id}`)
       .then((res) => setBook(res.data));
   }, [id]);
 
   const addToCart = async () => {
     try {
-      await axios.post(
-        "http://localhost:5000/api/cart",
+      await api.post(
+        "/cart",
         { bookId: book.id },
         {
           headers: {
@@ -27,24 +28,46 @@ function Book() {
       alert("Товар добавлен в корзину");
     } catch (err) {
       console.error(err);
-      alert("Ошибка добавления");
+      alert(err.response?.data?.error || "Ошибка добавления");
     }
   };
 
-  if (!book) return <div>Загрузка...</div>;
+  if (!book) return <div className="min-h-screen flex items-center justify-center bg-white"><div className="text-gray-500 text-xl">Loading...</div></div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold">{book.title}</h1>
-      <p>{book.author}</p>
-      <p>{book.price} ₽</p>
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 md:px-12 lg:px-24 py-12">
+      <div className="max-w-4xl w-full flex flex-col md:flex-row items-center gap-12 bg-white rounded-xl shadow p-8">
+        {/* Левая часть: только изображение товара */}
+        <div className="w-full max-w-xs flex-shrink-0 flex items-center justify-center">
+          <img
+            src={book.image || "/imgs/home/main1.png"}
+            alt={book.title}
+            className="w-64 h-64 object-cover rounded shadow-lg"
+          />
+        </div>
 
-      <button
-        onClick={addToCart}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-      >
-        Добавить в корзину
-      </button>
+        {/* Правая часть: инфо */}
+        <div className="flex-1 w-full flex flex-col gap-4">
+          <div className="text-gray-500 text-sm mb-1">Featured Book of the week</div>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">{book.title}</h1>
+          <div className="text-gray-600 text-sm mb-2">By {book.author}</div>
+          {/* Рейтинг (заглушка) */}
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-yellow-500 text-xl">★★★★☆</span>
+            <span className="text-gray-400 text-xs">4.0</span>
+          </div>
+          <div className="text-gray-600 mb-4">
+            Jump start your book reading by quickly check through the popular book categories. 1000+ books are published by different authors everyday. Buy your favourite books on OpenTome Today.
+          </div>
+          <div className="text-2xl font-bold mb-4">{book.price ? `${book.price} ₽` : "$ 45.00"}</div>
+          <button
+            onClick={addToCart}
+            className="w-fit px-8 py-3 border-2 border-black text-black font-semibold rounded-lg hover:bg-black hover:text-white transition-all"
+          >
+            Buy Now
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

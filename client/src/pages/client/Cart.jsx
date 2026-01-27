@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import { Link } from "react-router-dom";
 
 function Cart() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState({ items: [], total: 0 });
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/cart", {
+      const res = await api.get("/cart", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -28,62 +28,48 @@ function Cart() {
     } else {
       setLoading(false);
     }
-  }, []);
-
-  const add = async (id) => {
-    await axios.post(
-      "http://localhost:5000/api/cart/plus",
-      { bookId: id },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    fetchCart();
-  };
-
-  const minus = async (id) => {
-    await axios.post(
-      "http://localhost:5000/api/cart/minus",
-      { bookId: id },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    fetchCart();
-  };
+  }, [token]);
 
   const removeFromCart = async (bookId) => {
-    await axios.delete(
-      `http://localhost:5000/api/cart/${bookId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    fetchCart();
-  };
-  const clearCart = async () => {
-    if (!window.confirm("Clear the cart?")) return;
-
     try {
-      await axios.delete("http://localhost:5000/api/cart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setCart([]); // мгновенно очищаем UI
+      await api.delete(
+        `/cart/${bookId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchCart();
     } catch (err) {
-      console.error("Failed to clear cart", err);
+      console.error("Error removing from cart:", err);
+      alert(err.response?.data?.error || "Failed to remove item");
     }
   };
 
+  const updateQuantity = async (bookId, newQuantity) => {
+    if (newQuantity < 1) return;
+    try {
+      await api.put(
+        `/cart/${bookId}`,
+        { quantity: newQuantity },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchCart();
+    } catch (err) {
+      console.error("Error updating quantity:", err);
+      alert(err.response?.data?.error || "Failed to update quantity");
+    }
+  };
 
   const handleCheckout = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/checkout",
+      const res = await api.post(
+        "/orders",
         {},
         {
           headers: {
@@ -96,19 +82,15 @@ function Cart() {
 
       alert("Order created! ID: " + res.data.orderId);
 
-      // обновляем корзину
-      setCart([]);
+      // обновляем корзину с бэка
+      fetchCart();
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.error || "Checkout failed");
     }
   };
 
-
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const total = cart.total || 0;
 
   if (loading) {
     return (
@@ -139,97 +121,78 @@ function Cart() {
     );
   }
 
-  if (cart.length === 0) {
+  if (cart.items.length === 0) {
     return (
-      <div className="min-h-screen bg-white px-6 md:px-12 lg:px-24 py-12">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Shopping Cart</h1>
-          <div className="text-center py-20">
-            <div className="text-6xl mb-6">📚</div>
-            <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
-            <p className="text-gray-600 mb-8">Add some books to get started!</p>
-            <Link
-              to="/catalog"
-              className="inline-block px-8 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
-            >
-              Browse Books
-            </Link>
-          </div>
+      <div className="min-h-screen bg-white px-4 md:px-12 lg:px-24 py-12 flex items-center justify-center">
+        <div className="max-w-xl w-full text-center bg-white rounded-xl shadow p-10">
+          <div className="text-6xl mb-6">🛒</div>
+          <h1 className="text-3xl font-bold mb-4">Your cart is empty</h1>
+          <p className="text-gray-600 mb-8">Add some books to get started!</p>
+          <Link
+            to="/catalog"
+            className="inline-block px-8 py-3 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+          >
+            Browse Books
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white px-6 md:px-12 lg:px-24 py-12">
+    <div className="min-h-screen bg-white px-4 md:px-12 lg:px-24 py-12">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold mb-8">Shopping Cart</h1>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Список товаров */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-100">
-              {cart.map((item) => (
-                <div key={item.book_id} className="p-6 hover:bg-gray-50 transition-colors">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    {/* Заглушка для обложки */}
-                    <div className="w-20 h-28 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center text-white font-bold">
-                      {item.title.substring(0, 2).toUpperCase()}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-black mb-1 truncate">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm mb-2">Per item: {item.price} ₽</p>
-
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          {/* Кнопки управления количеством */}
-                          <div className="flex items-center border border-gray-300 rounded-lg">
-                            <button
-                              onClick={() => minus(item.book_id)}
-                              className="px-3 py-1 text-gray-600 hover:text-black hover:bg-gray-100 transition-colors"
-                            >
-                              -
-                            </button>
-                            <span className="px-4 py-1 text-center min-w-[3rem]">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() => add(item.book_id)}
-                              className="px-3 py-1 text-gray-600 hover:text-black hover:bg-gray-100 transition-colors"
-                            >
-                              +
-                            </button>
-                          </div>
-
-                          <button
-                            onClick={() => removeFromCart(item.book_id)}
-                            className="text-sm text-red-600 hover:text-red-800 transition-colors"
-                          >
-                            Remove
-                          </button>
-                        </div>
-
-                        <div className="text-right">
-                          <p className="font-semibold text-lg">
-                            {item.price * item.quantity} ₽
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+          <div className="lg:col-span-2 flex flex-col gap-6">
+            {cart.items.map((item) => (
+              <div key={item.book_id} className="flex flex-col md:flex-row items-center gap-6 bg-white rounded-xl shadow p-6 hover:shadow-lg transition-all">
+                <div className="w-32 h-44 flex items-center justify-center overflow-hidden rounded-xl bg-gray-100">
+                  <img src={item.image || "/imgs/home/main1.png"} alt={item.title} className="object-cover w-full h-full rounded-xl" />
                 </div>
-              ))}
-            </div>
+                <div className="flex-1 w-full text-left">
+                  <div className="font-bold text-lg mb-1">{item.title}</div>
+                  <div className="text-gray-600 text-sm mb-1">By {item.author}</div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-yellow-500">★★★★★</span>
+                    <span className="text-gray-400 text-xs">1,988,288 voters</span>
+                  </div>
+                  <div className="text-gray-500 text-sm mb-2">Per item: {item.price} ₽</div>
+                  <div className="flex items-center gap-4 mb-2">
+                    <span className="font-semibold">Quantity:</span>
+                    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                      <button
+                        className="px-3 py-1 text-lg text-black hover:bg-gray-100"
+                        onClick={() => updateQuantity(item.book_id, item.quantity - 1)}
+                        disabled={item.quantity <= 1}
+                      >
+                        -
+                      </button>
+                      <span className="px-4 py-1 text-center min-w-[3rem]">{item.quantity}</span>
+                      <button
+                        className="px-3 py-1 text-lg text-black hover:bg-gray-100"
+                        onClick={() => updateQuantity(item.book_id, item.quantity + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => removeFromCart(item.book_id)}
+                      className="text-sm text-red-600 hover:text-red-800 font-medium border border-red-200 rounded px-3 py-1 transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="font-bold text-lg">{item.price * item.quantity} ₽</div>
+                </div>
+              </div>
+            ))}
           </div>
-
           {/* Панель итогов */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg border border-gray-200 p-6 sticky top-6">
+            <div className="bg-white rounded-xl shadow p-8 sticky top-6">
               <h2 className="text-xl font-bold mb-6">Order Summary</h2>
-
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
@@ -243,7 +206,6 @@ function Cart() {
                   <span>Tax</span>
                   <span>Included</span>
                 </div>
-
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
@@ -251,29 +213,18 @@ function Cart() {
                   </div>
                 </div>
               </div>
-
               <button
                 onClick={handleCheckout}
-                className="w-full py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors mb-3"
+                className="w-full py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors mb-3"
               >
                 Proceed to Checkout
               </button>
-
-              <button
-                onClick={clearCart}
-                className="w-full py-3 border border-red-500 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors"
-              >
-                Clear Cart
-              </button>
-
-
               <Link
                 to="/catalog"
-                className="block w-full py-3 text-center border border-gray-300 text-black font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                className="block w-full py-3 text-center border border-gray-300 text-black font-semibold rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Continue Shopping
               </Link>
-
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <h3 className="font-semibold mb-2">Need help?</h3>
                 <p className="text-sm text-gray-600">
@@ -281,29 +232,6 @@ function Cart() {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Дополнительные рекомендации */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <h2 className="text-2xl font-bold mb-6">You might also like</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Пример рекомендуемых книг */}
-            {[
-              { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", price: 450 },
-              { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", price: 500 },
-              { id: 3, title: "1984", author: "George Orwell", price: 400 },
-              { id: 4, title: "Pride and Prejudice", author: "Jane Austen", price: 380 },
-            ].map((book) => (
-              <div key={book.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                <div className="w-full h-48 bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg mb-4 flex items-center justify-center text-white font-bold text-2xl">
-                  {book.title.substring(0, 2).toUpperCase()}
-                </div>
-                <h3 className="font-semibold text-black mb-1 truncate">{book.title}</h3>
-                <p className="text-gray-600 text-sm mb-2">{book.author}</p>
-                <p className="font-semibold">{book.price} ₽</p>
-              </div>
-            ))}
           </div>
         </div>
       </div>

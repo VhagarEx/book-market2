@@ -1,27 +1,37 @@
+
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import { Link } from "react-router-dom";
+
+const GENRES = [
+  "All Genres", "Adventure", "Mystery", "Horror", "Thriller", "Romace", "Historical", "Fantasy"
+];
+const RECOMMENDATIONS = [
+  "Artist of the Month", "Book of the Year", "Top Genre", "Trending"
+];
 
 function Catalog() {
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [genre, setGenre] = useState("All Genres");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/books")
+    api
+      .get("/books")
       .then((res) => setBooks(res.data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }, []);
 
   // Функция для добавления в корзину
   const handleBuyNow = (bookId) => {
-    const token = localStorage.getItem("token");
     if (!token) {
       alert("Please login first");
       return;
     }
-    
-    axios.post(
-      "http://localhost:5000/api/cart",
+    api.post(
+      "/cart",
       { bookId },
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,99 +42,95 @@ function Catalog() {
     })
     .catch((err) => {
       console.error(err);
-      alert("Error adding to cart");
+      alert(err.response?.data?.error || "Error adding to cart");
     });
   };
 
-  // Функция для получения заглушки обложки книги на основе названия
-  const getBookCover = (title) => {
-    const colors = [
-      "bg-gradient-to-br from-blue-500 to-blue-700",
-      "bg-gradient-to-br from-red-500 to-red-700",
-      "bg-gradient-to-br from-green-500 to-green-700",
-      "bg-gradient-to-br from-purple-500 to-purple-700",
-      "bg-gradient-to-br from-yellow-500 to-yellow-700",
-      "bg-gradient-to-br from-pink-500 to-pink-700",
-      "bg-gradient-to-br from-indigo-500 to-indigo-700",
-      "bg-gradient-to-br from-teal-500 to-teal-700",
-    ];
-    
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    
-    // Берем первые буквы названия для текста на обложке
-    const initials = title
-      .split(" ")
-      .map(word => word[0])
-      .join("")
-      .substring(0, 3)
-      .toUpperCase();
-    
-    return { color: randomColor, initials };
-  };
+  // Заглушка для фильтрации
+  const filteredBooks = genre === "All Genres" ? books : books.filter(b => b.genre === genre);
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="px-6 md:px-12 lg:px-24 py-12">
-        {/* Заголовок секции */}
-        <h1 className="text-4xl font-bold text-black mb-12">
-          Adventure
-        </h1>
-        
-        {/* Сетка карточек - 3 в ряд на десктопе */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {books.map((book) => {
-            const cover = getBookCover(book.title);
-            const imageUrl = book.image || null;
-            
-            return (
-              <div 
-                key={book.id} 
-                className="w-128 flex flex-col items-center space-y-6 p-6 rounded-lg transition-all duration-300 hover:shadow-lg"
+      <div className="max-w-7xl mx-auto flex gap-12 px-4 md:px-12 lg:px-24 py-12">
+        {/* Sidebar */}
+        <aside className="w-64 hidden md:block">
+          <div className="mb-8">
+            <div className="font-bold text-lg mb-4">Book by Genre</div>
+            <ul className="space-y-2">
+              {GENRES.map(g => (
+                <li key={g}>
+                  <button
+                    className={`block text-left w-full px-2 py-1 rounded font-medium transition-colors ${genre === g ? "text-black font-bold" : "text-gray-600 hover:text-black"}`}
+                    onClick={() => setGenre(g)}
+                  >
+                    {g}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <div className="font-bold text-lg mb-4">Recomendations</div>
+            <ul className="space-y-2">
+              {RECOMMENDATIONS.map(r => (
+                <li key={r} className="text-gray-600 hover:text-black cursor-pointer font-medium">{r}</li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+
+        {/* Main content */}
+        <main className="flex-1">
+          {/* Поиск (заглушка) */}
+          <div className="mb-8">
+            <input
+              type="text"
+              placeholder="Search Book"
+              className="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-lg shadow-sm"
+              disabled
+            />
+          </div>
+
+          {/* Сетка карточек */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredBooks.map((book, idx) => (
+              <Link
+                key={book.id || idx}
+                to={`/book/${book.id}`}
+                className="flex flex-col items-center gap-4 p-4 rounded-xl shadow hover:shadow-lg transition-all bg-white cursor-pointer group"
               >
-                {/* Обложка книги */}
-                <div className="w-full max-w-xs h-80 rounded-lg overflow-hidden shadow-md">
-                  <Link to={`/book/${book.id}`}>
-                    <div>
-                      <div className="text-white text-center p-4">
-                        <img src={imageUrl} alt={book.title} />
-                        <div className="text-6xl font-bold mb-2">{cover.initials}</div>
-                        <div className="text-lg opacity-80">{book.author}</div>
-                        <div className="text-sm opacity-60 mt-2">{book.price} ₽</div>
-                      </div>
-                    </div>
-                  </Link>
+                <div className="w-full h-64 flex items-center justify-center overflow-hidden rounded-xl mb-2">
+                  <img src={book.image || "/imgs/home/main1.png"} alt={book.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200" />
                 </div>
-                
-                {/* Название книги */}
-                <div className="text-center">
-                  <Link to={`/book/${book.id}`}>
-                    <h3 className="text-xl font-medium text-black mb-2 hover:text-gray-700 transition-colors">
-                      {book.title}
-                    </h3>
-                  </Link>
-                  <p className="text-gray-600 text-sm mb-1">{book.author}</p>
-                  <p className="text-black font-semibold">{book.price} ₽</p>
+                <div className="w-full text-left">
+                  <div className="font-bold text-lg mb-1">{book.title}</div>
+                  <div className="text-gray-600 text-sm mb-1">By {book.author}</div>
+                  {/* Заглушка отзывов */}
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-yellow-500">★★★★★</span>
+                    <span className="text-gray-400 text-xs">1,988,288 voters</span>
+                  </div>
+                  <div className="text-gray-500 text-sm mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus morbi eleifend enim, tristique</div>
                 </div>
-                
-                {/* Кнопка Buy Now */}
                 <button
-                  onClick={() => handleBuyNow(book.id)}
-                  className="px-8 py-3 border-2 border-black text-black font-medium rounded-full hover:bg-black hover:text-white transition-all duration-300"
+                  type="button"
+                  onClick={e => { e.preventDefault(); handleBuyNow(book.id); }}
+                  className="w-full px-6 py-2 border-2 border-black text-black font-semibold rounded-lg hover:bg-black hover:text-white transition-all"
                 >
                   Buy Now
                 </button>
-              </div>
-            );
-          })}
-        </div>
-        
-        {/* Если книг нет */}
-        {books.length === 0 && (
-          <div className="text-center py-20">
-            <div className="text-5xl mb-4">📚</div>
-            <p className="text-xl text-gray-600">No books available</p>
+              </Link>
+            ))}
           </div>
-        )}
+
+          {/* Если книг нет */}
+          {filteredBooks.length === 0 && (
+            <div className="text-center py-20">
+              <div className="text-5xl mb-4">📚</div>
+              <p className="text-xl text-gray-600">No books available</p>
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 
 function MyOrders() {
     const [orders, setOrders] = useState([]);
@@ -9,7 +9,7 @@ function MyOrders() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/orders", {
+                const res = await api.get("/orders/my", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -23,7 +23,7 @@ function MyOrders() {
         };
 
         fetchOrders();
-    }, []);
+    }, [token]);
 
     if (loading) {
         return <div className="p-10 text-center">Loading orders...</div>;
@@ -59,6 +59,7 @@ function MyOrders() {
                                 ${order.status === "pending" && "bg-yellow-100 text-yellow-800"}
                                 ${order.status === "paid" && "bg-blue-100 text-blue-800"}
                                 ${order.status === "shipped" && "bg-green-100 text-green-800"}
+                                ${order.status === "completed" && "bg-green-100 text-green-800"}
                             `}>
                                 {order.status}
                             </span>

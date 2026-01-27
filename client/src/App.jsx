@@ -12,6 +12,7 @@ import Cart from "./pages/client/Cart";
 import Login from "./pages/client/Login";
 import Register from "./pages/client/Register";
 import MyOrders from "./pages/client/MyOrders";
+import Profile from "./pages/client/Profile";
 
 // admin pages
 import AdminBooks from "./pages/admin/AdminBooks";
@@ -52,6 +53,14 @@ export default function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
         </Route>
 
         {/* ================= ADMIN ================= */}

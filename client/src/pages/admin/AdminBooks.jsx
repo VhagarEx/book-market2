@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 
 export default function AdminBooks() {
   const [books, setBooks] = useState([]);
@@ -16,39 +16,55 @@ export default function AdminBooks() {
 
   // ===== FETCH =====
   const fetchBooks = async () => {
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/books",
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    setBooks(res.data);
+    try {
+      const res = await api.get(
+        "/books",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setBooks(res.data);
+    } catch (err) {
+      console.error("Failed to fetch books:", err);
+    }
   };
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [token]);
 
   // ===== ADD =====
   const addBook = async () => {
-    await axios.post(
-      "http://localhost:5000/api/admin/books",
-      form,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    try {
+      await api.post(
+        "/books",
+        form,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    setForm({ title: "", author: "", price: "", image: "" });
-    fetchBooks();
+      setForm({ title: "", author: "", price: "", image: "" });
+      fetchBooks();
+      alert("Book added successfully!");
+    } catch (err) {
+      console.error("Failed to add book:", err);
+      alert(err.response?.data?.error || "Failed to add book");
+    }
   };
 
   // ===== DELETE =====
   const deleteBook = async (id) => {
-    if (!window.confirm("Удалить книгу?")) return;
+    if (!window.confirm("Delete this book?")) return;
 
-    await axios.delete(
-      `http://localhost:5000/api/admin/books/${id}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    try {
+      await api.delete(
+        `/books/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    fetchBooks();
+      fetchBooks();
+      alert("Book deleted successfully!");
+    } catch (err) {
+      console.error("Failed to delete book:", err);
+      alert(err.response?.data?.error || "Failed to delete book");
+    }
   };
 
   // ===== EDIT =====
@@ -63,15 +79,21 @@ export default function AdminBooks() {
   };
 
   const saveEdit = async (id) => {
-    await axios.put(
-      `http://localhost:5000/api/admin/books/${id}`,
-      form,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    try {
+      await api.put(
+        `/books/${id}`,
+        form,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    setEditId(null);
-    setForm({ title: "", author: "", price: "", image: "" });
-    fetchBooks();
+      setEditId(null);
+      setForm({ title: "", author: "", price: "", image: "" });
+      fetchBooks();
+      alert("Book updated successfully!");
+    } catch (err) {
+      console.error("Failed to update book:", err);
+      alert(err.response?.data?.error || "Failed to update book");
+    }
   };
 
   return (
