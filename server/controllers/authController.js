@@ -10,22 +10,22 @@ export const register = async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+      return res.status(400).json({ error: 'Email и пароль обязательны' });
     }
 
     if (password.length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+      return res.status(400).json({ error: 'Пароль должен быть минимум 6 символов' });
     }
 
     const hash = await bcrypt.hash(password, 10);
     const user = await createUser(name || 'User', email, hash);
 
-    res.status(201).json({ message: 'User created successfully', user: { id: user.id, email: user.email } });
+    res.status(201).json({ message: 'Пользователь успешно создан', user: { id: user.id, email: user.email } });
   } catch (err) {
     if (err.message.includes('unique')) {
-      return res.status(409).json({ error: 'User with this email already exists' });
+      return res.status(409).json({ error: 'Пользователь с таким email уже существует' });
     }
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -34,17 +34,17 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+      return res.status(400).json({ error: 'Email и пароль обязательны' });
     }
 
     const user = await findUserByEmail(email);
     if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return res.status(401).json({ error: 'Неверный email или пароль' });
     }
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return res.status(401).json({ error: 'Неверный email или пароль' });
     }
 
     const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -52,6 +52,6 @@ export const login = async (req, res) => {
     res.json({ token, user: { id: user.id, email: user.email, role: user.role } });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };

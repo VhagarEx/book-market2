@@ -6,7 +6,7 @@ export const getBooks = async (req, res) => {
     res.json(books);
   } catch (err) {
     console.error('Get books error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -14,18 +14,18 @@ export const getBook = async (req, res) => {
   try {
     const { id } = req.params;
     if (isNaN(id)) {
-      return res.status(400).json({ error: 'Invalid book ID' });
+      return res.status(400).json({ error: 'Неверный ID книги' });
     }
 
     const book = await getBookById(parseInt(id));
     if (!book) {
-      return res.status(404).json({ error: 'Book not found' });
+      return res.status(404).json({ error: 'Книга не найдена' });
     }
 
     res.json(book);
   } catch (err) {
     console.error('Get book error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -34,18 +34,18 @@ export const addBook = async (req, res) => {
     const { title, author, price, image } = req.body;
 
     if (!title || !author || !price) {
-      return res.status(400).json({ error: 'Title, author, and price are required' });
+      return res.status(400).json({ error: 'Название, автор и цена обязательны' });
     }
 
     if (isNaN(price) || price <= 0) {
-      return res.status(400).json({ error: 'Price must be a positive number' });
+      return res.status(400).json({ error: 'Цена должна быть положительным числом' });
     }
 
     const book = await createBook(title, author, price, image);
-    res.status(201).json({ message: 'Book added successfully', book });
+    res.status(201).json({ message: 'Книга успешно добавлена', book });
   } catch (err) {
     console.error('Add book error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -55,26 +55,26 @@ export const editBook = async (req, res) => {
     const { title, author, price, image } = req.body;
 
     if (isNaN(id)) {
-      return res.status(400).json({ error: 'Invalid book ID' });
+      return res.status(400).json({ error: 'Неверный ID книги' });
     }
 
     if (!title || !author || !price) {
-      return res.status(400).json({ error: 'Title, author, and price are required' });
+      return res.status(400).json({ error: 'Название, автор и цена обязательны' });
     }
 
     if (isNaN(price) || price <= 0) {
-      return res.status(400).json({ error: 'Price must be a positive number' });
+      return res.status(400).json({ error: 'Цена должна быть положительным числом' });
     }
 
     const book = await updateBook(parseInt(id), title, author, price, image);
     if (!book) {
-      return res.status(404).json({ error: 'Book not found' });
+      return res.status(404).json({ error: 'Книга не найдена' });
     }
 
-    res.json({ message: 'Book updated successfully', book });
+    res.json({ message: 'Книга успешно обновлена', book });
   } catch (err) {
     console.error('Edit book error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -83,17 +83,17 @@ export const removeBook = async (req, res) => {
     const { id } = req.params;
 
     if (isNaN(id)) {
-      return res.status(400).json({ error: 'Invalid book ID' });
+      return res.status(400).json({ error: 'Неверный ID книги' });
     }
 
     const result = await deleteBook(parseInt(id));
     if (!result) {
-      return res.status(404).json({ error: 'Book not found' });
+      return res.status(404).json({ error: 'Книга не найдена' });
     }
 
-    res.json({ message: 'Book deleted successfully' });
+    res.json({ message: 'Книга успешно удалена' });
   } catch (err) {
     console.error('Remove book error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };

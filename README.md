@@ -25,34 +25,7 @@
 - **bcrypt** - хеширование паролей
 - **CORS** - безопасность межсайтовых запросов
 
-## 📁 Структура проекта
-
-book-market/
-├── client/ # React приложение
-│ ├── src/
-│ │ ├── components/ # Переиспользуемые компоненты
-│ │ │ ├── Header.jsx # Навигационная панель
-│ │ │ └── PrivateRoute.jsx
-│ │ ├── pages/ # Страницы приложения
-│ │ │ ├── Home.jsx # Главная страница
-│ │ │ ├── Catalog.jsx # Каталог книг
-│ │ │ ├── Book.jsx # Страница книги
-│ │ │ ├── Cart.jsx # Корзина
-│ │ │ ├── Login.jsx # Вход
-│ │ │ └── Register.jsx # Регистрация
-│ │ ├── App.jsx # Главный компонент
-│ │ └── main.jsx # Точка входа
-│ ├── index.html
-│ └── package.json
-├── server/ # Express сервер
-│ ├── app.js # Основной файл сервера
-│ ├── package.json
-│ └── .env.example
-└── README.md # Документация
-text
-
-
-## 🚀 Быстрый старт
+## Установка
 
 ### 1. Клонирование репозитория
 ```bash
@@ -92,33 +65,58 @@ npm run dev
 
 
 
-🗄️ Структура базы данных
-Таблица users
-sql
+## 🗄️ Структура базы данных
 
+### Таблица users
+```sql
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
 
-Таблица books
-sql
-
+### Таблица books
+```sql
 CREATE TABLE books (
   id SERIAL PRIMARY KEY,
   title TEXT NOT NULL,
   author TEXT NOT NULL,
-  price INTEGER NOT NULL
+  price NUMERIC(10,2) NOT NULL,
+  image TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
 
-Таблица cart
-sql
-
+### Таблица cart
+```sql
 CREATE TABLE cart (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id),
-  book_id INTEGER REFERENCES books(id),
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  book_id INTEGER REFERENCES books(id) ON DELETE CASCADE,
   quantity INTEGER DEFAULT 1
 );
+```
+
+### Таблица orders
+```sql
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  total_price NUMERIC(10,2) NOT NULL,
+  status TEXT DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Таблица order_items
+```sql
+CREATE TABLE order_items (
+  id SERIAL PRIMARY KEY,
+  order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
+  book_id INTEGER REFERENCES books(id),
+  quantity INTEGER NOT NULL,
+  price NUMERIC(10,2) NOT NULL
+);
+```

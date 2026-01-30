@@ -29,7 +29,7 @@ export default function AdminLayout() {
   return (
     <div className="flex min-h-screen">
       <aside className="w-64 bg-gray-900 text-white p-4">
-        <h2 className="text-xl mb-6">Admin</h2>
+        <h2 className="text-xl mb-6">Администратор</h2>
         {user && (
           <div className="mb-4 flex flex-col gap-2">
             <span className="text-gray-200 font-medium">{user.email || user.name || "User"}</span>
@@ -37,13 +37,13 @@ export default function AdminLayout() {
               onClick={handleLogout}
               className="px-4 py-1 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors text-sm"
             >
-              Logout
+              Выход
             </button>
           </div>
         )}
         <nav className="flex flex-col gap-3">
-          <Link to="/admin/books">📚 Books</Link>
-          <Link to="/admin/orders">📦 Orders</Link>
+          <Link to="/admin/books">📚 Книги</Link>
+          <Link to="/admin/orders">📦 Заказы</Link>
         </nav>
       </aside>
 

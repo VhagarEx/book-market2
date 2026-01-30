@@ -5,13 +5,13 @@ export const updateCartQuantity = async (req, res) => {
     const { bookId } = req.params;
     const { quantity } = req.body;
     if (!quantity || isNaN(quantity) || quantity < 1) {
-      return res.status(400).json({ error: 'Invalid quantity' });
+      return res.status(400).json({ error: 'Неверное количество' });
     }
     const item = await updateQuantity(userId, parseInt(bookId), quantity);
-    res.json({ message: 'Quantity updated', item });
+    res.json({ message: 'Количество обновлено', item });
   } catch (err) {
     console.error('Update quantity error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -21,21 +21,21 @@ export const addItemToCart = async (req, res) => {
     const { bookId, quantity = 1 } = req.body;
 
     if (!bookId) {
-      return res.status(400).json({ error: 'Book ID is required' });
+      return res.status(400).json({ error: 'ID книги обязателен' });
     }
 
     if (isNaN(bookId)) {
-      return res.status(400).json({ error: 'Invalid book ID' });
+      return res.status(400).json({ error: 'Неверный ID книги' });
     }
 
     const item = await addToCart(userId, parseInt(bookId), quantity);
-    res.status(201).json({ message: 'Item added to cart', item });
+    res.status(201).json({ message: 'Товар добавлен в корзину', item });
   } catch (err) {
     console.error('Add to cart error:', err);
     if (err.message === 'Book not found') {
-      return res.status(404).json({ error: err.message });
+      return res.status(404).json({ error: 'Книга не найдена' });
     }
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -46,7 +46,7 @@ export const getMyCart = async (req, res) => {
     res.json(cart);
   } catch (err) {
     console.error('Get cart error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -56,16 +56,16 @@ export const removeItemFromCart = async (req, res) => {
     const { bookId } = req.params;
 
     if (isNaN(bookId)) {
-      return res.status(400).json({ error: 'Invalid book ID' });
+      return res.status(400).json({ error: 'Неверный ID книги' });
     }
 
     await removeFromCart(userId, parseInt(bookId));
-    res.json({ message: 'Item removed from cart' });
+    res.json({ message: 'Товар удален из корзины' });
   } catch (err) {
     console.error('Remove from cart error:', err);
     if (err.message === 'Item not found in cart') {
-      return res.status(404).json({ error: err.message });
+      return res.status(404).json({ error: 'Товар не найден в корзине' });
     }
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };

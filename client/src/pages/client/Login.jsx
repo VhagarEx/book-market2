@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../api/api";
 import { useNavigate, Link } from "react-router-dom";
-import loginImage from "/public/log/logandreg.png"
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -150,7 +150,7 @@ const handleLogin = async (e) => {
         </div>
       </div>
 
-      <img src={loginImage} alt="Login" className="w-256 h-256"/>
+      <img src="/public/log/logandreg.png" alt="Login" className="w-256 h-256"/>
     </div>
   );
 }

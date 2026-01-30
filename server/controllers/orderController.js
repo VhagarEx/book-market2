@@ -9,7 +9,7 @@ export const createNewOrder = async (req, res) => {
     const cartData = await getCart(userId);
     const cartItems = cartData.items || [];
     if (!cartItems.length) {
-      return res.status(400).json({ error: 'Cart is empty' });
+      return res.status(400).json({ error: 'Корзина пуста' });
     }
 
     // Calculate total
@@ -26,10 +26,10 @@ export const createNewOrder = async (req, res) => {
     // Clear cart
     await clearCart(userId);
 
-    res.status(201).json({ message: 'Order created successfully', orderId: order.id, total });
+    res.status(201).json({ message: 'Заказ успешно создан', orderId: order.id, total });
   } catch (err) {
     console.error('Create order error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -40,7 +40,7 @@ export const getMyOrders = async (req, res) => {
     res.json(orders);
   } catch (err) {
     console.error('Get orders error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -50,7 +50,7 @@ export const getAdminOrders = async (req, res) => {
     res.json(orders);
   } catch (err) {
     console.error('Get admin orders error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
 
@@ -60,20 +60,20 @@ export const changeOrderStatus = async (req, res) => {
     const { status } = req.body;
 
     if (!status) {
-      return res.status(400).json({ error: 'Status is required' });
+      return res.status(400).json({ error: 'Статус обязателен' });
     }
 
     const order = await updateOrderStatus(parseInt(id), status);
     if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
+      return res.status(404).json({ error: 'Заказ не найден' });
     }
 
-    res.json({ message: 'Order status updated', order });
+    res.json({ message: 'Статус заказа обновлен', order });
   } catch (err) {
     console.error('Change order status error:', err);
     if (err.message === 'Invalid status') {
-      return res.status(400).json({ error: err.message });
+      return res.status(400).json({ error: 'Неверный статус' });
     }
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
