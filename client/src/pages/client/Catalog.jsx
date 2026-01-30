@@ -1,19 +1,18 @@
-
 import { useEffect, useState } from "react";
 import api from "../../api/api";
 import { Link } from "react-router-dom";
 
 const GENRES = [
-  "All Genres", "Adventure", "Mystery", "Horror", "Thriller", "Romace", "Historical", "Fantasy"
+  "Все жанры", "Приключения", "Детектив", "Ужасы", "Триллер", "Романтика", "Исторический", "Фэнтези"
 ];
 const RECOMMENDATIONS = [
-  "Artist of the Month", "Book of the Year", "Top Genre", "Trending"
+  "Автор месяца", "Книга года", "Лучший жанр", "В тренде"
 ];
 
 function Catalog() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [genre, setGenre] = useState("All Genres");
+  const [genre, setGenre] = useState("Все жанры");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -47,7 +46,7 @@ function Catalog() {
   };
 
   // Заглушка для фильтрации
-  const filteredBooks = genre === "All Genres" ? books : books.filter(b => b.genre === genre);
+  const filteredBooks = genre === "Все жанры" ? books : books.filter(b => b.genre === genre);
 
   return (
     <div className="min-h-screen bg-white">
@@ -55,7 +54,7 @@ function Catalog() {
         {/* Sidebar */}
         <aside className="w-64 hidden md:block">
           <div className="mb-8">
-            <div className="font-bold text-lg mb-4">Book by Genre</div>
+            <div className="font-bold text-lg mb-4">Книги по жанрам</div>
             <ul className="space-y-2">
               {GENRES.map(g => (
                 <li key={g}>
@@ -70,7 +69,7 @@ function Catalog() {
             </ul>
           </div>
           <div>
-            <div className="font-bold text-lg mb-4">Recomendations</div>
+            <div className="font-bold text-lg mb-4">Рекомендации</div>
             <ul className="space-y-2">
               {RECOMMENDATIONS.map(r => (
                 <li key={r} className="text-gray-600 hover:text-black cursor-pointer font-medium">{r}</li>
@@ -85,7 +84,7 @@ function Catalog() {
           <div className="mb-8">
             <input
               type="text"
-              placeholder="Search Book"
+              placeholder="Поиск книги"
               className="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-lg shadow-sm"
               disabled
             />
@@ -104,20 +103,20 @@ function Catalog() {
                 </div>
                 <div className="w-full text-left">
                   <div className="font-bold text-lg mb-1">{book.title}</div>
-                  <div className="text-gray-600 text-sm mb-1">By {book.author}</div>
+                  <div className="text-gray-600 text-sm mb-1">Автор: {book.author}</div>
                   {/* Заглушка отзывов */}
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-yellow-500">★★★★★</span>
-                    <span className="text-gray-400 text-xs">1,988,288 voters</span>
+                    <span className="text-gray-400 text-xs">1 988 288 оценок</span>
                   </div>
-                  <div className="text-gray-500 text-sm mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus morbi eleifend enim, tristique</div>
+                  <div className="text-gray-500 text-sm mb-2">Описание книги. Здесь будет краткое описание или аннотация.</div>
                 </div>
                 <button
                   type="button"
                   onClick={e => { e.preventDefault(); handleBuyNow(book.id); }}
                   className="w-full px-6 py-2 border-2 border-black text-black font-semibold rounded-lg hover:bg-black hover:text-white transition-all"
                 >
-                  Buy Now
+                  Купить
                 </button>
               </Link>
             ))}
@@ -127,7 +126,7 @@ function Catalog() {
           {filteredBooks.length === 0 && (
             <div className="text-center py-20">
               <div className="text-5xl mb-4">📚</div>
-              <p className="text-xl text-gray-600">No books available</p>
+              <p className="text-xl text-gray-600">Нет доступных книг</p>
             </div>
           )}
         </main>

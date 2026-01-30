@@ -80,7 +80,7 @@ function Cart() {
 
       console.log("CHECKOUT RESPONSE:", res.data);
 
-      alert("Order created! ID: " + res.data.orderId);
+      alert("Заказ создан! ID: " + res.data.orderId);
 
       // обновляем корзину с бэка
       fetchCart();
@@ -97,7 +97,7 @@ function Cart() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
-          <p className="mt-4 text-gray-600">Loading cart...</p>
+          <p className="mt-4 text-gray-600">Загрузка корзины...</p>
         </div>
       </div>
     );
@@ -108,13 +108,13 @@ function Cart() {
       <div className="min-h-screen bg-white px-6 md:px-12 lg:px-24 py-12">
         <div className="max-w-7xl mx-auto text-center py-20">
           <div className="text-6xl mb-6">🛒</div>
-          <h1 className="text-3xl font-bold mb-4">Your cart is empty</h1>
-          <p className="text-gray-600 mb-8">Please login to view your cart</p>
+          <h1 className="text-3xl font-bold mb-4">Ваша корзина пуста</h1>
+          <p className="text-gray-600 mb-8">Пожалуйста, войдите, чтобы просмотреть корзину</p>
           <Link
             to="/login"
             className="inline-block px-8 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
           >
-            Sign In
+            Войти
           </Link>
         </div>
       </div>
@@ -126,13 +126,13 @@ function Cart() {
       <div className="min-h-screen bg-white px-4 md:px-12 lg:px-24 py-12 flex items-center justify-center">
         <div className="max-w-xl w-full text-center bg-white rounded-xl shadow p-10">
           <div className="text-6xl mb-6">🛒</div>
-          <h1 className="text-3xl font-bold mb-4">Your cart is empty</h1>
-          <p className="text-gray-600 mb-8">Add some books to get started!</p>
+          <h1 className="text-3xl font-bold mb-4">Ваша корзина пуста</h1>
+          <p className="text-gray-600 mb-8">Добавьте книги, чтобы начать!</p>
           <Link
             to="/catalog"
             className="inline-block px-8 py-3 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors"
           >
-            Browse Books
+            Смотреть книги
           </Link>
         </div>
       </div>
@@ -142,7 +142,7 @@ function Cart() {
   return (
     <div className="min-h-screen bg-white px-4 md:px-12 lg:px-24 py-12">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">Shopping Cart</h1>
+        <h1 className="text-4xl font-bold mb-8">Корзина покупок</h1>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Список товаров */}
           <div className="lg:col-span-2 flex flex-col gap-6">
@@ -153,14 +153,14 @@ function Cart() {
                 </div>
                 <div className="flex-1 w-full text-left">
                   <div className="font-bold text-lg mb-1">{item.title}</div>
-                  <div className="text-gray-600 text-sm mb-1">By {item.author}</div>
+                  <div className="text-gray-600 text-sm mb-1">Автор: {item.author}</div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-yellow-500">★★★★★</span>
-                    <span className="text-gray-400 text-xs">1,988,288 voters</span>
+                    <span className="text-gray-400 text-xs">1 988 288 оценок</span>
                   </div>
-                  <div className="text-gray-500 text-sm mb-2">Per item: {item.price} ₽</div>
+                  <div className="text-gray-500 text-sm mb-2">За шт: {item.price} ₽</div>
                   <div className="flex items-center gap-4 mb-2">
-                    <span className="font-semibold">Quantity:</span>
+                    <span className="font-semibold">Количество:</span>
                     <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
                       <button
                         className="px-3 py-1 text-lg text-black hover:bg-gray-100"
@@ -181,7 +181,7 @@ function Cart() {
                       onClick={() => removeFromCart(item.book_id)}
                       className="text-sm text-red-600 hover:text-red-800 font-medium border border-red-200 rounded px-3 py-1 transition-colors"
                     >
-                      Remove
+                      Удалить
                     </button>
                   </div>
                   <div className="font-bold text-lg">{item.price * item.quantity} ₽</div>
@@ -192,23 +192,23 @@ function Cart() {
           {/* Панель итогов */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow p-8 sticky top-6">
-              <h2 className="text-xl font-bold mb-6">Order Summary</h2>
+              <h2 className="text-xl font-bold mb-6">Итоги заказа</h2>
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
-                  <span>Subtotal</span>
+                  <span>Подитог</span>
                   <span>{total} ₽</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Shipping</span>
-                  <span>Free</span>
+                  <span>Доставка</span>
+                  <span>Бесплатно</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Tax</span>
-                  <span>Included</span>
+                  <span>Налог</span>
+                  <span>Включено</span>
                 </div>
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex justify-between text-lg font-bold">
-                    <span>Total</span>
+                    <span>Итого</span>
                     <span>{total} ₽</span>
                   </div>
                 </div>
@@ -217,18 +217,18 @@ function Cart() {
                 onClick={handleCheckout}
                 className="w-full py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors mb-3"
               >
-                Proceed to Checkout
+                Перейти к оформлению
               </button>
               <Link
                 to="/catalog"
                 className="block w-full py-3 text-center border border-gray-300 text-black font-semibold rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Continue Shopping
+                Продолжить покупки
               </Link>
               <div className="mt-6 pt-6 border-t border-gray-200">
-                <h3 className="font-semibold mb-2">Need help?</h3>
+                <h3 className="font-semibold mb-2">Нужна помощь?</h3>
                 <p className="text-sm text-gray-600">
-                  Contact us at <a href="mailto:support@opentome.com" className="text-black hover:underline">support@opentome.com</a>
+                  Свяжитесь с нами: <a href="mailto:support@opentome.com" className="text-black hover:underline">support@opentome.com</a>
                 </p>
               </div>
             </div>

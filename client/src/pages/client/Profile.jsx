@@ -36,7 +36,7 @@ function Profile() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-gray-500 text-xl">Loading...</div>
+        <div className="text-gray-500 text-xl">Загрузка...</div>
       </div>
     );
   }
@@ -46,7 +46,7 @@ function Profile() {
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="max-w-xl w-full text-center bg-white rounded-xl shadow p-10">
           <div className="text-6xl mb-6">👤</div>
-          <h1 className="text-3xl font-bold mb-4">Please log in to view your profile</h1>
+          <h1 className="text-3xl font-bold mb-4">Пожалуйста, войдите, чтобы просмотреть профиль</h1>
         </div>
       </div>
     );
@@ -62,22 +62,22 @@ function Profile() {
           <div className="flex-1">
             <h2 className="text-2xl font-bold mb-2">{user.name || user.email}</h2>
             <div className="text-gray-600 mb-1">Email: {user.email}</div>
-            <div className="text-gray-600 mb-1">Role: {user.role || "User"}</div>
+            <div className="text-gray-600 mb-1">Роль: {user.role === "admin" ? "Администратор" : "Пользователь"}</div>
             <div className="text-gray-600 mb-1">ID: {user.id}</div>
           </div>
         </div>
 
         <div className="bg-white rounded-xl shadow p-8">
-          <h3 className="text-xl font-bold mb-6">My Orders</h3>
+          <h3 className="text-xl font-bold mb-6">Мои заказы</h3>
           {orders.length === 0 ? (
-            <div className="text-gray-500">No orders yet.</div>
+            <div className="text-gray-500">Заказов еще нет.</div>
           ) : (
             <div className="grid gap-8 md:grid-cols-2">
               {orders.map((order) => (
                 <div key={order.id} className="rounded-xl border shadow-sm p-6 bg-gradient-to-br from-white to-gray-50">
                   <div className="flex justify-between items-center mb-3">
                     <div>
-                      <span className="font-bold text-lg">Order #{order.id}</span>
+                      <span className="font-bold text-lg">Заказ #{order.id}</span>
                       <div className="text-xs text-gray-400 mt-1">{new Date(order.created_at).toLocaleString()}</div>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold 
@@ -87,12 +87,16 @@ function Profile() {
                       ${order.status === "completed" && "bg-green-200 text-green-900"}
                       ${order.status === "cancelled" && "bg-red-100 text-red-800"}
                     `}>
-                      {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                      {order.status === "pending" && "В ожидании"}
+                      {order.status === "paid" && "Оплачено"}
+                      {order.status === "shipped" && "Отправлено"}
+                      {order.status === "completed" && "Завершено"}
+                      {order.status === "cancelled" && "Отменено"}
                     </span>
                   </div>
-                  <div className="mb-2 text-gray-600 text-sm">Total: <span className="font-bold text-black text-base">{order.total} ₽</span></div>
+                  <div className="mb-2 text-gray-600 text-sm">Итого: <span className="font-bold text-black text-base">{order.total} ₽</span></div>
                   <div className="mt-4">
-                    <div className="text-gray-500 mb-2 font-medium">Books in order:</div>
+                    <div className="text-gray-500 mb-2 font-medium">Книги в заказе:</div>
                     <ul className="divide-y divide-gray-100">
                       {order.items.map((item, idx) => (
                         <li key={item.book_id || idx} className="py-2 flex justify-between items-center">

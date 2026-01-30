@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../../api/api";
 import { useNavigate, Link } from "react-router-dom";
+import loginImage from "/public/log/logandreg.png"
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -47,8 +48,8 @@ const handleLogin = async (e) => {
         <div className="max-w-md mx-auto w-full">
           {/* Заголовок */}
           <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Log in</h1>
-            <p className="text-gray-600">Welcome back to OpenTome</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Вход</h1>
+            <p className="text-gray-600">Добро пожаловать в OpenTome</p>
           </div>
 
           {/* Форма */}
@@ -62,14 +63,14 @@ const handleLogin = async (e) => {
             {/* Email поле */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email address or user name
+                Email или имя пользователя
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
-                placeholder="Enter your email"
+                placeholder="Введите ваш email"
                 required
               />
             </div>
@@ -77,7 +78,7 @@ const handleLogin = async (e) => {
             {/* Password поле */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                Пароль
               </label>
               <div className="relative">
                 <input
@@ -85,7 +86,7 @@ const handleLogin = async (e) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent pr-12"
-                  placeholder="Enter your password"
+                  placeholder="Введите ваш пароль"
                   required
                 />
                 <button
@@ -118,12 +119,12 @@ const handleLogin = async (e) => {
                   className="h-4 w-4 text-gray-600 border-gray-300 rounded focus:ring-gray-500"
                 />
                 <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
-                  Remember me
+                  Запомнить меня
                 </label>
               </div>
               
               <Link to="/forgot-password" className="text-sm text-gray-600 hover:text-gray-900">
-                Forgot password?
+                Забыли пароль?
               </Link>
             </div>
 
@@ -133,15 +134,15 @@ const handleLogin = async (e) => {
               disabled={loading}
               className="w-full py-3 px-4 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Logging in..." : "Log in"}
+              {loading ? "Вход..." : "Вход"}
             </button>
 
             {/* Ссылка на регистрацию */}
             <div className="text-center pt-6 border-t border-gray-100">
               <p className="text-gray-600">
-                Don't have an account?{" "}
+                Нет аккаунта?{" "}
                 <Link to="/register" className="text-gray-900 font-medium hover:underline">
-                  Sign up
+                  Зарегистрироваться
                 </Link>
               </p>
             </div>
@@ -149,93 +150,7 @@ const handleLogin = async (e) => {
         </div>
       </div>
 
-      {/* Правая колонка - изображение */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-amber-50 to-amber-100">
-        {/* Декоративная надпись */}
-        <div className="absolute top-8 right-8 z-10">
-          <div className="text-amber-800/80 font-serif italic text-lg tracking-widest transform rotate-3">
-            book culture @ columbus
-          </div>
-        </div>
-        
-        {/* Стилизованные книжные полки */}
-        <div className="absolute inset-0 flex items-center justify-center p-12">
-          <div className="relative w-full h-3/4 bg-gradient-to-b from-amber-200/30 to-amber-300/20 rounded-2xl overflow-hidden border border-amber-200/40">
-            {/* Имитация книжных полок */}
-            <div className="absolute inset-0 flex flex-col justify-between p-8">
-              {/* Верхняя полка */}
-              <div className="flex space-x-4">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div 
-                    key={i} 
-                    className={`h-32 w-12 rounded bg-gradient-to-r ${
-                      i % 3 === 0 ? 'from-amber-700 to-amber-800' :
-                      i % 2 === 0 ? 'from-red-800 to-red-900' :
-                      'from-blue-900 to-blue-950'
-                    } transform rotate-1 shadow-lg`}
-                    style={{ transform: `rotate(${Math.random() * 2 - 1}deg)` }}
-                  />
-                ))}
-              </div>
-              
-              {/* Средняя полка */}
-              <div className="flex space-x-4 justify-center">
-                {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-                  <div 
-                    key={i} 
-                    className={`h-40 w-10 rounded ${
-                      i % 4 === 0 ? 'bg-gradient-to-b from-emerald-800 to-emerald-900' :
-                      i % 3 === 0 ? 'bg-gradient-to-b from-purple-800 to-purple-900' :
-                      i % 2 === 0 ? 'bg-gradient-to-b from-amber-800 to-amber-900' :
-                      'bg-gradient-to-b from-gray-800 to-gray-900'
-                    } transform -rotate-1 shadow-lg`}
-                    style={{ 
-                      height: `${140 + Math.random() * 40}px`,
-                      transform: `rotate(${Math.random() * 1.5 - 0.75}deg)`
-                    }}
-                  />
-                ))}
-              </div>
-              
-              {/* Нижняя полка */}
-              <div className="flex space-x-3">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div 
-                    key={i} 
-                    className={`h-36 w-14 rounded ${
-                      i % 3 === 0 ? 'bg-gradient-to-r from-rose-900 to-rose-950' :
-                      i % 2 === 0 ? 'bg-gradient-to-r from-indigo-900 to-indigo-950' :
-                      'bg-gradient-to-r from-amber-900 to-amber-950'
-                    } transform rotate-2 shadow-lg`}
-                    style={{ 
-                      height: `${120 + Math.random() * 30}px`,
-                      transform: `rotate(${Math.random() * 1 - 0.5}deg)`
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            
-            {/* Эффект стекла/витрины */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-amber-50/10 to-transparent" />
-            
-            {/* Декоративные элементы света */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-amber-200/5 to-transparent rounded-full" />
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-amber-300/5 to-transparent rounded-full" />
-          </div>
-        </div>
-        
-        {/* Накладной текст для атмосферы */}
-        <div className="absolute bottom-12 left-12 max-w-sm">
-          <p className="text-amber-800/60 font-light text-lg italic">
-            "A room without books is like a body without a soul."
-            <span className="block text-amber-800/40 text-sm mt-2">— Marcus Tullius Cicero</span>
-          </p>
-        </div>
-        
-        {/* Эффект освещения */}
-        <div className="absolute inset-0 bg-gradient-to-t from-amber-50/20 via-transparent to-amber-100/10" />
-      </div>
+      <img src={loginImage} alt="Login" className="w-256 h-256"/>
     </div>
   );
 }

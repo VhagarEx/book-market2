@@ -25,14 +25,14 @@ function Book() {
           },
         }
       );
-      alert("Товар добавлен в корзину");
+      alert("Книга добавлена в корзину");
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.error || "Ошибка добавления");
+      alert(err.response?.data?.error || "Ошибка при добавлении в корзину");
     }
   };
 
-  if (!book) return <div className="min-h-screen flex items-center justify-center bg-white"><div className="text-gray-500 text-xl">Loading...</div></div>;
+  if (!book) return <div className="min-h-screen flex items-center justify-center bg-white"><div className="text-gray-500 text-xl">Загрузка...</div></div>;
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4 md:px-12 lg:px-24 py-12">
@@ -48,23 +48,23 @@ function Book() {
 
         {/* Правая часть: инфо */}
         <div className="flex-1 w-full flex flex-col gap-4">
-          <div className="text-gray-500 text-sm mb-1">Featured Book of the week</div>
+          <div className="text-gray-500 text-sm mb-1">Рекомендуемая книга недели</div>
           <h1 className="text-2xl md:text-3xl font-bold mb-2">{book.title}</h1>
-          <div className="text-gray-600 text-sm mb-2">By {book.author}</div>
+          <div className="text-gray-600 text-sm mb-2">Автор: {book.author}</div>
           {/* Рейтинг (заглушка) */}
           <div className="flex items-center gap-2 mb-2">
             <span className="text-yellow-500 text-xl">★★★★☆</span>
             <span className="text-gray-400 text-xs">4.0</span>
           </div>
           <div className="text-gray-600 mb-4">
-            Jump start your book reading by quickly check through the popular book categories. 1000+ books are published by different authors everyday. Buy your favourite books on OpenTome Today.
+            Начните читать, просматривая популярные категории книг. 1000+ книг публикуется разными авторами каждый день. Покупайте ваши любимые книги на OpenTome сегодня.
           </div>
           <div className="text-2xl font-bold mb-4">{book.price ? `${book.price} ₽` : "$ 45.00"}</div>
           <button
             onClick={addToCart}
             className="w-fit px-8 py-3 border-2 border-black text-black font-semibold rounded-lg hover:bg-black hover:text-white transition-all"
           >
-            Buy Now
+            Купить
           </button>
         </div>
       </div>

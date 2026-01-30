@@ -26,20 +26,20 @@ function MyOrders() {
     }, [token]);
 
     if (loading) {
-        return <div className="p-10 text-center">Loading orders...</div>;
+        return <div className="p-10 text-center">Загрузка заказов...</div>;
     }
 
     if (!orders.length) {
         return (
             <div className="p-10 text-center">
-                <h2 className="text-2xl font-bold">No orders yet 📦</h2>
+                <h2 className="text-2xl font-bold">Нет заказов 📦</h2>
             </div>
         );
     }
 
     return (
         <div className="min-h-screen bg-white px-6 py-10">
-            <h1 className="text-3xl font-bold mb-8">My Orders</h1>
+            <h1 className="text-3xl font-bold mb-8">Мои заказы</h1>
 
             <div className="space-y-6">
                 {orders.map((order) => (
@@ -49,7 +49,7 @@ function MyOrders() {
                     >
                         <div className="flex justify-between mb-4">
                             <div>
-                                <p className="font-semibold">Order #{order.id}</p>
+                                <p className="font-semibold">Заказ #{order.id}</p>
                                 <p className="text-sm text-gray-500">
                                     {new Date(order.created_at).toLocaleString()}
                                 </p>
@@ -61,7 +61,10 @@ function MyOrders() {
                                 ${order.status === "shipped" && "bg-green-100 text-green-800"}
                                 ${order.status === "completed" && "bg-green-100 text-green-800"}
                             `}>
-                                {order.status}
+                                {order.status === "pending" && "В ожидании"}
+                                {order.status === "paid" && "Оплачено"}
+                                {order.status === "shipped" && "Отправлено"}
+                                {order.status === "completed" && "Завершено"}
                             </span>
                         </div>
 
@@ -80,7 +83,7 @@ function MyOrders() {
                         </div>
 
                         <div className="mt-4 text-right font-bold">
-                            Total: {order.total_price} ₽
+                            Итого: {order.total_price} ₽
                         </div>
                     </div>
                 ))}

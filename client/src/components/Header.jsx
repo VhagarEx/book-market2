@@ -37,10 +37,10 @@ const Header = () => {
 
         {/* Навигация */}
         <nav className="hidden md:flex items-center gap-8 text-base font-medium">
-          <Link to="/" className="text-gray-700 hover:text-black transition-colors">Home</Link>
-          <Link to="/catalog" className="text-gray-700 hover:text-black transition-colors">Categories</Link>
-          <Link to="/cart" className="text-gray-700 hover:text-black transition-colors">Cart</Link>
-          <Link to="/profile" className="text-gray-700 hover:text-black transition-colors">Profile</Link>
+          <Link to="/" className="text-gray-700 hover:text-black transition-colors">Главная</Link>
+          <Link to="/catalog" className="text-gray-700 hover:text-black transition-colors">Каталог</Link>
+          <Link to="/cart" className="text-gray-700 hover:text-black transition-colors">Корзина</Link>
+          <Link to="/profile" className="text-gray-700 hover:text-black transition-colors">Профиль</Link>
         </nav>
 
         {/* Кнопки или имя пользователя */}
@@ -52,7 +52,7 @@ const Header = () => {
                 onClick={handleLogout}
                 className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-semibold"
               >
-                Logout
+                Выход
               </button>
             </>
           ) : (
@@ -61,13 +61,13 @@ const Header = () => {
                 to="/login"
                 className="px-5 py-2 border border-black text-black rounded-lg font-semibold hover:bg-black hover:text-white transition-colors"
               >
-                Sign In
+                Войти
               </Link>
               <Link
                 to="/register"
                 className="px-5 py-2 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors"
               >
-                Sign Up
+                Регистрация
               </Link>
             </>
           )}
