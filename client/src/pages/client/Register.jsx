@@ -67,32 +67,32 @@ function Register() {
   return (
     <div className="min-h-screen flex bg-white">
       {/* Левая колонка - форма */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 lg:px-24 xl:px-32">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-4 sm:px-6 lg:px-24 xl:px-32 py-12 lg:py-0">
         <div className="max-w-md mx-auto w-full">
           {/* Заголовок */}
-          <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Регистрация</h1>
-            <p className="text-gray-600">Создайте аккаунт OpenTome</p>
+          <div className="text-center mb-8 sm:mb-10">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Регистрация</h1>
+            <p className="text-sm sm:text-base text-gray-600">Создайте аккаунт OpenTome</p>
           </div>
 
           {/* Форма */}
-          <form onSubmit={handleRegister} className="space-y-6">
+          <form onSubmit={handleRegister} className="space-y-4 sm:space-y-6">
             {error && (
-              <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg">
+              <div className="p-3 bg-red-50 text-red-600 text-xs sm:text-sm rounded-lg">
                 {error}
               </div>
             )}
 
             {/* Имя пользователя */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 Имя
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
                 placeholder="Введите ваше имя"
                 required
               />
@@ -100,14 +100,14 @@ function Register() {
 
             {/* Email поле */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 Email
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
                 placeholder="Введите ваш email"
                 required
               />
@@ -115,7 +115,7 @@ function Register() {
 
             {/* Password поле */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 Пароль
               </label>
               <div className="relative">
@@ -123,7 +123,7 @@ function Register() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent pr-12"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent pr-10"
                   placeholder="Создайте пароль (минимум 6 символов)"
                   required
                 />
@@ -148,7 +148,7 @@ function Register() {
 
             {/* Confirm Password поле */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 Подтвердите пароль
               </label>
               <div className="relative">
@@ -156,7 +156,7 @@ function Register() {
                   type={showConfirmPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent pr-12"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent pr-10"
                   placeholder="Подтвердите ваш пароль"
                   required
                 />
@@ -188,7 +188,7 @@ function Register() {
                 onChange={(e) => setRememberMe(e.target.checked)}
                 className="h-4 w-4 text-gray-600 border-gray-300 rounded focus:ring-gray-500"
               />
-              <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
+              <label htmlFor="remember" className="ml-2 block text-xs sm:text-sm text-gray-700">
                 Remember me
               </label>
             </div>
@@ -197,14 +197,14 @@ function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2 sm:py-3 px-4 text-sm sm:text-base bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Создание аккаунта..." : "Зарегистрироваться"}
             </button>
 
             {/* Ссылка на логин */}
-            <div className="text-center pt-6 border-t border-gray-100">
-              <p className="text-gray-600">
+            <div className="text-center pt-4 sm:pt-6 border-t border-gray-100">
+              <p className="text-xs sm:text-sm text-gray-600">
                 Already have an account?{" "}
                 <Link to="/login" className="text-black font-medium hover:underline">
                   Sign In
@@ -214,14 +214,14 @@ function Register() {
           </form>
 
           {/* Политика конфиденциальности */}
-          <div className="mt-8 text-center text-sm text-gray-500">
+          <div className="mt-6 sm:mt-8 text-center text-xs sm:text-sm text-gray-500">
             <p>By signing up, you agree to our Terms and Privacy Policy</p>
           </div>
         </div>
       </div>
 
-      {/* Правая колонка - изображение */}
-      <img src="/public/log/logandreg.png" alt="Login" className="w-256 h-256"/>
+      {/* Правая колонка - изображение (скрыто на мобилке) */}
+      <img src="/public/log/logandreg.png" alt="Login" className="hidden lg:block w-256 h-256 object-cover"/>
     </div>
   );
 }

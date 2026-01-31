@@ -42,8 +42,8 @@ export default function AdminLayout() {
           </div>
         )}
         <nav className="flex flex-col gap-3">
-          <Link to="/admin/books">📚 Книги</Link>
-          <Link to="/admin/orders">📦 Заказы</Link>
+          <Link to="/admin/books">Книги</Link>
+          <Link to="/admin/orders">Заказы</Link>
         </nav>
       </aside>
 

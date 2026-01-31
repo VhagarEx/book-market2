@@ -42,28 +42,28 @@ export default function AdminBooks() {
 
       setForm({ title: "", author: "", price: "", image: "" });
       fetchBooks();
-      alert("Book added successfully!");
+      alert("Книга добавлена успешно!");
     } catch (err) {
       console.error("Failed to add book:", err);
-      alert(err.response?.data?.error || "Failed to add book");
+      alert(err.response?.data?.error || "Ошибка добавления книги");
     }
   };
 
   // ===== DELETE =====
   const deleteBook = async (id) => {
-    if (!window.confirm("Delete this book?")) return;
+    if (!window.confirm("Удалить эту книгу?")) return;
 
     try {
       await api.delete(
         `/books/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
-      );
+      ); 
 
       fetchBooks();
-      alert("Book deleted successfully!");
+      alert("Книга удалена успешно!");
     } catch (err) {
       console.error("Failed to delete book:", err);
-      alert(err.response?.data?.error || "Failed to delete book");
+      alert(err.response?.data?.error || "Ошибка удаления книги");
     }
   };
 
@@ -89,28 +89,28 @@ export default function AdminBooks() {
       setEditId(null);
       setForm({ title: "", author: "", price: "", image: "" });
       fetchBooks();
-      alert("Book updated successfully!");
+      alert("Книга обновлена успешно!");
     } catch (err) {
       console.error("Failed to update book:", err);
-      alert(err.response?.data?.error || "Failed to update book");
+      alert(err.response?.data?.error || "Ошибка обновления книги");
     }
   };
 
   return (
     <div className="p-10">
-      <h1 className="text-3xl font-bold mb-6">📚 Admin Panel</h1>
+      <h1 className="text-3xl font-bold mb-6">Панель администратора</h1>
 
       {/* ADD BOOK */}
       <div className="mb-10 grid grid-cols-4 gap-3">
         <input
-          placeholder="Title"
+          placeholder="Название"
           className="border p-2"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
         />
 
         <input
-          placeholder="Author"
+          placeholder="Автор"
           className="border p-2"
           value={form.author}
           onChange={(e) => setForm({ ...form, author: e.target.value })}
@@ -118,7 +118,7 @@ export default function AdminBooks() {
 
         <input
           type="number"
-          placeholder="Price"
+          placeholder="Цена"
           className="border p-2"
           value={form.price}
           onChange={(e) =>
@@ -127,7 +127,7 @@ export default function AdminBooks() {
         />
 
         <input
-          placeholder="Image URL"
+          placeholder="URL изображения"
           className="border p-2"
           value={form.image}
           onChange={(e) => setForm({ ...form, image: e.target.value })}
@@ -137,7 +137,7 @@ export default function AdminBooks() {
           onClick={addBook}
           className="col-span-4 bg-black text-white p-2 rounded"
         >
-          ➕ Add book
+          Добавить книгу
         </button>
       </div>
 
@@ -187,14 +187,14 @@ export default function AdminBooks() {
                   onClick={() => saveEdit(book.id)}
                   className="bg-green-600 text-white px-3 py-1 rounded"
                 >
-                  💾 Save
+                  Сохранить
                 </button>
 
                 <button
                   onClick={() => setEditId(null)}
                   className="bg-gray-400 text-white px-3 py-1 rounded"
                 >
-                  Cancel
+                  Отменить
                 </button>
               </div>
             </div>
@@ -211,14 +211,14 @@ export default function AdminBooks() {
                   onClick={() => startEdit(book)}
                   className="bg-blue-600 text-white px-3 py-1 rounded"
                 >
-                  ✏ Edit
+                  Редактировать
                 </button>
 
                 <button
                   onClick={() => deleteBook(book.id)}
                   className="bg-red-600 text-white px-3 py-1 rounded"
                 >
-                  🗑 Delete
+                  Удалить
                 </button>
               </div>
             </>

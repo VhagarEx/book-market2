@@ -45,32 +45,32 @@ const handleLogin = async (e) => {
   return (
     <div className="min-h-screen flex bg-white">
       {/* Левая колонка - форма */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 lg:px-24 xl:px-32">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-4 sm:px-6 lg:px-24 xl:px-32 py-12 lg:py-0">
         <div className="max-w-md mx-auto w-full">
           {/* Заголовок */}
-          <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Вход</h1>
-            <p className="text-gray-600">Добро пожаловать в OpenTome</p>
+          <div className="text-center mb-8 sm:mb-10">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Вход</h1>
+            <p className="text-sm sm:text-base text-gray-600">Добро пожаловать в OpenTome</p>
           </div>
 
           {/* Форма */}
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-4 sm:space-y-6">
             {error && (
-              <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg">
+              <div className="p-3 bg-red-50 text-red-600 text-xs sm:text-sm rounded-lg">
                 {error}
               </div>
             )}
 
             {/* Email поле */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 Email или имя пользователя
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
                 placeholder="Введите ваш email"
                 required
               />
@@ -78,7 +78,7 @@ const handleLogin = async (e) => {
 
             {/* Password поле */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 Пароль
               </label>
               <div className="relative">
@@ -86,7 +86,7 @@ const handleLogin = async (e) => {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent pr-12"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent pr-10"
                   placeholder="Введите ваш пароль"
                   required
                 />
@@ -110,7 +110,7 @@ const handleLogin = async (e) => {
             </div>
 
             {/* Remember me и Forgot password */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
               <div className="flex items-center">
                 <input
                   type="checkbox"
@@ -119,12 +119,12 @@ const handleLogin = async (e) => {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="h-4 w-4 text-gray-600 border-gray-300 rounded focus:ring-gray-500"
                 />
-                <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
+                <label htmlFor="remember" className="ml-2 block text-xs sm:text-sm text-gray-700">
                   Запомнить меня
                 </label>
               </div>
               
-              <Link to="/forgot-password" className="text-sm text-gray-600 hover:text-gray-900">
+              <Link to="/forgot-password" className="text-xs sm:text-sm text-gray-600 hover:text-gray-900">
                 Забыли пароль?
               </Link>
             </div>
@@ -133,14 +133,14 @@ const handleLogin = async (e) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2 sm:py-3 px-4 text-sm sm:text-base bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Вход..." : "Вход"}
             </button>
 
             {/* Ссылка на регистрацию */}
-            <div className="text-center pt-6 border-t border-gray-100">
-              <p className="text-gray-600">
+            <div className="text-center pt-4 sm:pt-6 border-t border-gray-100">
+              <p className="text-xs sm:text-sm text-gray-600">
                 Нет аккаунта?{" "}
                 <Link to="/register" className="text-gray-900 font-medium hover:underline">
                   Зарегистрироваться
@@ -151,7 +151,8 @@ const handleLogin = async (e) => {
         </div>
       </div>
 
-      <img src="/public/log/logandreg.png" alt="Login" className="w-256 h-256"/>
+      {/* Правая колонка - изображение (скрыто на мобилке) */}
+      <img src="/public/log/logandreg.png" alt="Login" className="hidden lg:block w-256 h-256 object-cover"/>
     </div>
   );
 }
