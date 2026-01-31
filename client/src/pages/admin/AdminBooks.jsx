@@ -101,13 +101,13 @@ export default function AdminBooks() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-10">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2 fade-in">📚 Управление книгами</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2 fade-in">Управление книгами</h1>
           <p className="text-gray-600">Добавляйте, редактируйте и удаляйте книги из каталога</p>
         </div>
 
         {/* ADD BOOK FORM */}
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl shadow-lg p-6 sm:p-8 mb-10 fade-in">
-          <h2 className="text-xl sm:text-2xl font-bold mb-6">➕ Добавить новую книгу</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-6">Добавить новую книгу</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <div>
@@ -162,7 +162,7 @@ export default function AdminBooks() {
 
         {/* BOOKS LIST */}
         <div>
-          <h2 className="text-2xl font-bold mb-6">📖 Книги в каталоге ({books.length})</h2>
+          <h2 className="text-2xl font-bold mb-6">Книги в каталоге ({books.length})</h2>
           
           {books.length === 0 ? (
             <div className="text-center py-12 bg-gray-50 rounded-xl">
@@ -219,7 +219,7 @@ export default function AdminBooks() {
                           onClick={() => saveEdit(book.id)}
                           className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
                         >
-                          💾 Сохранить
+                          Сохранить
                         </button>
                         <button
                           onClick={() => setEditId(null)}
@@ -242,13 +242,13 @@ export default function AdminBooks() {
                           onClick={() => startEdit(book)}
                           className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
                         >
-                          ✏️ Редактировать
+                          Редактировать
                         </button>
                         <button
                           onClick={() => deleteBook(book.id)}
                           className="flex-1 sm:flex-none px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium text-sm"
                         >
-                          🗑️ Удалить
+                          Удалить
                         </button>
                       </div>
                     </div>

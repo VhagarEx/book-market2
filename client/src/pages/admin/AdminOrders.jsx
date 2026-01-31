@@ -85,7 +85,7 @@ function AdminOrders() {
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-10">
-                    <h1 className="text-3xl sm:text-4xl font-bold mb-2 fade-in">📦 Управление заказами</h1>
+                    <h1 className="text-3xl sm:text-4xl font-bold mb-2 fade-in">Управление заказами</h1>
                     <p className="text-gray-600">Отслеживайте и управляйте всеми заказами</p>
                 </div>
 
@@ -170,7 +170,7 @@ function AdminOrders() {
                                     {/* Items */}
                                     {order.items && order.items.length > 0 && (
                                         <div className="mt-4 pt-4 border-t border-gray-200">
-                                            <p className="font-semibold text-gray-900 mb-3">📚 Товары в заказе:</p>
+                                            <p className="font-semibold text-gray-900 mb-3">Товары в заказе:</p>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                 {order.items.map((item, itemIdx) => (
                                                     <div key={itemIdx} className="bg-gray-50 rounded-lg p-3">
