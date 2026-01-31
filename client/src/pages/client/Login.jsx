@@ -27,7 +27,8 @@ const handleLogin = async (e) => {
     localStorage.setItem("token", res.data.token);
     localStorage.setItem("user", JSON.stringify(res.data.user));
 
-    // 🔥 РЕДИРЕКТ ПО РОЛИ
+    window.dispatchEvent(new Event("userUpdated"));
+
     if (res.data.user.role === "admin") {
       navigate("/admin/books");
     } else {

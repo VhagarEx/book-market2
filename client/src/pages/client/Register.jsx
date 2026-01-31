@@ -3,6 +3,7 @@ import api from "../../api/api";
 import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,7 +19,7 @@ function Register() {
     setError("");
 
     // Валидация
-    if (!email || !password || !confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
       setError("Все поля обязательны");
       return;
     }
@@ -37,6 +38,7 @@ function Register() {
       setLoading(true);
       
       await api.post("/auth/register", {
+        name,
         email,
         password,
       });
@@ -48,6 +50,11 @@ function Register() {
       });
 
       localStorage.setItem("token", loginRes.data.token);
+      localStorage.setItem("user", JSON.stringify(loginRes.data.user));
+
+      // Отправляем custom event для обновления Header
+      window.dispatchEvent(new Event("userUpdated"));
+
       navigate("/");
       
     } catch (err) {
@@ -75,6 +82,21 @@ function Register() {
                 {error}
               </div>
             )}
+
+            {/* Имя пользователя */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Имя
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all"
+                placeholder="Введите ваше имя"
+                required
+              />
+            </div>
 
             {/* Email поле */}
             <div>

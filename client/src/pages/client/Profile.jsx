@@ -15,7 +15,6 @@ function Profile() {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => {
-          // Map backend fields to frontend expectations
           const mapped = res.data.map(order => ({
             ...order,
             total: order.total_price,

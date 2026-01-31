@@ -32,7 +32,7 @@ function MyOrders() {
     if (!orders.length) {
         return (
             <div className="p-10 text-center">
-                <h2 className="text-2xl font-bold">Нет заказов 📦</h2>
+                <h2 className="text-2xl font-bold">Нет заказов</h2>
             </div>
         );
     }

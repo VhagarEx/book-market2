@@ -6,7 +6,7 @@ const Header = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const updateUserFromStorage = () => {
     const stored = localStorage.getItem("user");
     if (stored) {
       try {
@@ -17,6 +17,22 @@ const Header = () => {
     } else {
       setUser(null);
     }
+  };
+
+  useEffect(() => {
+    updateUserFromStorage();
+
+    window.addEventListener("storage", updateUserFromStorage);
+
+    return () => window.removeEventListener("storage", updateUserFromStorage);
+  }, []);
+
+  useEffect(() => {
+    const handleUserUpdate = () => {
+      updateUserFromStorage();
+    };
+    window.addEventListener("userUpdated", handleUserUpdate);
+    return () => window.removeEventListener("userUpdated", handleUserUpdate);
   }, []);
 
   const handleLogout = () => {
