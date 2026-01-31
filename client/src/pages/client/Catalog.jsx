@@ -96,7 +96,7 @@ function Catalog() {
               <Link
                 key={book.id || idx}
                 to={`/book/${book.id}`}
-                className="flex flex-col items-center gap-4 p-4 rounded-xl shadow hover:shadow-lg transition-all bg-white cursor-pointer group"
+                className="flex flex-col items-center gap-4 p-4 rounded-xl shadow hover:shadow-lg transition-all bg-white cursor-pointer group fade-in hover-scale"
               >
                 <div className="w-full h-64 flex items-center justify-center overflow-hidden rounded-xl mb-2">
                   <img src={book.image || "/imgs/home/main1.png"} alt={book.title} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200" />

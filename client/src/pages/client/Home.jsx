@@ -8,21 +8,21 @@ function Home() {
         <section className="py-12 md:py-20">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="md:w-1/2 flex flex-col gap-6">
-              <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-2">Открой для себя истории</h1>
-              <p className="text-lg md:text-xl text-gray-700 mb-4">
+              <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-2 fade-in">Открой для себя истории</h1>
+              <p className="text-lg md:text-xl text-gray-700 mb-4 fade-in" style={{animationDelay: '0.1s'}}>
                 Добро пожаловать в OpenTome — идеальное место для любителей книг со всего мира. Будь вы заядлым читателем в поисках следующей великой книги или продавцом, желающим расширить свою аудиторию, OpenTome сделает ваш опыт простым и приятным.
               </p>
-              <Link to="/catalog" className="w-fit px-8 py-3 bg-black text-white text-lg font-semibold rounded hover:bg-gray-800 transition-colors">Каталог</Link>
+              <Link to="/catalog" className="w-fit px-8 py-3 bg-black text-white text-lg font-semibold rounded hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 fade-in" style={{animationDelay: '0.2s'}}>Каталог</Link>
               <div className="flex gap-8 mt-8">
-                <div className="text-center">
+                <div className="text-center fade-in hover-scale" style={{animationDelay: '0.3s'}}>
                   <div className="text-3xl font-bold">100+</div>
                   <div className="text-gray-500 text-sm">Стран обслужено</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center fade-in hover-scale" style={{animationDelay: '0.4s'}}>
                   <div className="text-3xl font-bold">500K+</div>
                   <div className="text-gray-500 text-sm">Книг предоставлено</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center fade-in hover-scale" style={{animationDelay: '0.5s'}}>
                   <div className="text-3xl font-bold">200K+</div>
                   <div className="text-gray-500 text-sm">Отзывы и оценки</div>
                 </div>
@@ -36,19 +36,19 @@ function Home() {
 
         {/* Наши услуги */}
         <section className="py-12 md:py-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Наши услуги</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 fade-in">Наши услуги</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center text-center gap-4 p-6 bg-gray-50 rounded-xl shadow">
+            <div className="flex flex-col items-center text-center gap-4 p-6 bg-gray-50 rounded-xl shadow fade-in hover-scale hover:glow-animation">
               <img src="/imgs/home/ourServiceIcon1.png" alt="Коллекция книг" className="w-14 h-14 mb-2" />
               <h3 className="text-xl font-bold">Обширная коллекция книг</h3>
               <p className="text-gray-600 text-sm">Найдите тысячи книг по жанрам и языкам — от бестселлеров до классики</p>
             </div>
-            <div className="flex flex-col items-center text-center gap-4 p-6 bg-gray-50 rounded-xl shadow">
+            <div className="flex flex-col items-center text-center gap-4 p-6 bg-gray-50 rounded-xl shadow fade-in hover-scale hover:glow-animation" style={{animationDelay: '0.1s'}}>
               <img src="/imgs/home/ourServiceIcon2.png" alt="Покупки" className="w-14 h-14 mb-2" />
               <h3 className="text-xl font-bold">Бесшовный опыт покупок</h3>
               <p className="text-gray-600 text-sm">Удобный поиск, безопасная оплата, множество способов оплаты и отслеживание заказа в реальном времени</p>
             </div>
-            <div className="flex flex-col items-center text-center gap-4 p-6 bg-gray-50 rounded-xl shadow">
+            <div className="flex flex-col items-center text-center gap-4 p-6 bg-gray-50 rounded-xl shadow fade-in hover-scale hover:glow-animation" style={{animationDelay: '0.2s'}}>
               <img src="/imgs/home/ourServiceIcon3.png" alt="Рекомендации" className="w-14 h-14 mb-2" />
               <h3 className="text-xl font-bold">Персональные рекомендации</h3>
               <p className="text-gray-600 text-sm">Получайте советы по книгам на основе ваших интересов и читайте отзывы других читателей</p>

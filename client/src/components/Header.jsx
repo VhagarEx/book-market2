@@ -111,7 +111,7 @@ const Header = () => {
 
       {/* Мобильное меню */}
       {isMenuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white">
+        <div className="md:hidden border-t border-gray-100 bg-white slide-in-left">
           <nav className="flex flex-col px-4 py-4 space-y-3">
             <Link
               to="/"

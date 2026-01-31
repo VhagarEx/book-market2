@@ -96,8 +96,8 @@ function Cart() {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
-          <p className="mt-4 text-gray-600">Загрузка корзины...</p>
+          <div className="inline-block spin-animation rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+          <p className="mt-4 text-gray-600 pulse-animation">Загрузка корзины...</p>
         </div>
       </div>
     );
@@ -147,7 +147,7 @@ function Cart() {
           {/* Список товаров */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             {cart.items.map((item) => (
-              <div key={item.book_id} className="flex flex-col md:flex-row items-center gap-6 bg-white rounded-xl shadow p-6 hover:shadow-lg transition-all">
+              <div key={item.book_id} className="flex flex-col md:flex-row items-center gap-6 bg-white rounded-xl shadow p-6 hover:shadow-lg transition-all fade-in hover-scale">
                 <div className="w-32 h-44 flex items-center justify-center overflow-hidden rounded-xl bg-gray-100">
                   <img src={item.image || "/imgs/home/main1.png"} alt={item.title} className="object-cover w-full h-full rounded-xl" />
                 </div>
@@ -215,7 +215,7 @@ function Cart() {
               </div>
               <button
                 onClick={handleCheckout}
-                className="w-full py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors mb-3"
+                className="w-full py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors mb-3 hover:scale-105 active:scale-95"
               >
                 Перейти к оформлению
               </button>
